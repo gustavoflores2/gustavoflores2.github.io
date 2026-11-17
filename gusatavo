@@ -1,0 +1,569 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Un jardín para ti 🌷</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: linear-gradient(
+        180deg,
+        #c8b5f5 0%,
+        #f6cce6 45%,
+        #ffe9f5 75%,
+        #c4e6b2 100%
+    );
+    font-family: Georgia, serif;
+}
+
+/* Cielo y decoración */
+
+.cielo {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.luz {
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        #ffffff99,
+        transparent 70%
+    );
+    top: -180px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Jardín */
+
+.jardin {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.suelo {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 19%;
+    background: linear-gradient(
+        transparent,
+        #82b97888
+    );
+}
+
+.flor {
+    position: absolute;
+    bottom: -10px;
+    width: 100px;
+    height: 310px;
+    transform-origin: bottom center;
+    animation: balanceo 5s ease-in-out infinite alternate;
+}
+
+.tallo {
+    position: absolute;
+    bottom: 0;
+    left: 49%;
+    height: 76%;
+    width: 7px;
+    background: linear-gradient(
+        90deg,
+        #2c7639,
+        #7cbd6b
+    );
+    border-radius: 10px;
+}
+
+.hoja {
+    position: absolute;
+    width: 47px;
+    height: 22px;
+    background: #529e50;
+    border-radius: 100% 0 100% 0;
+    bottom: 90px;
+    left: 50%;
+    transform: rotate(-25deg);
+}
+
+.hoja.dos {
+    bottom: 145px;
+    left: 6%;
+    transform: rotate(200deg);
+}
+
+.cabeza {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    transform: translateX(-50%);
+}
+
+/* Girasoles */
+
+.girasol .petalo {
+    position: absolute;
+    width: 31px;
+    height: 58px;
+    border-radius: 50%;
+    background: var(--color);
+    left: 35px;
+    top: 5px;
+    transform-origin: 15px 45px;
+    box-shadow: inset 3px 3px 7px #ffffff55;
+}
+
+.girasol .centro {
+    position: absolute;
+    width: 53px;
+    height: 53px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        #8a572e,
+        #382219
+    );
+    top: 30px;
+    left: 24px;
+    border: 5px dotted #c58d49;
+    z-index: 2;
+}
+
+/* Tulipanes */
+
+.tulipan .cabeza {
+    top: 12px;
+}
+
+.tulipan .petalo {
+    position: absolute;
+    bottom: 0;
+    width: 52px;
+    height: 86px;
+    background: var(--color);
+    border-radius: 55% 55% 25% 25%;
+    box-shadow: inset -8px -5px 12px #00000018;
+}
+
+.tulipan .petalo:nth-child(1) {
+    left: 0;
+    transform: rotate(-20deg);
+}
+
+.tulipan .petalo:nth-child(2) {
+    left: 48px;
+    transform: rotate(20deg);
+}
+
+.tulipan .petalo:nth-child(3) {
+    left: 24px;
+    height: 96px;
+    z-index: 2;
+}
+
+/* Colores */
+
+.rosa { --color: #ff83ba; }
+.blanco { --color: #fffdf8; }
+.negro { --color: #30263d; }
+.lila { --color: #b586f3; }
+
+/* Carta en forma de nube */
+
+.contenido {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 70px 15px 130px;
+}
+
+.nube {
+    position: relative;
+    width: min(430px, 88vw);
+    padding: 65px 38px;
+    background: #fffdf9f2;
+    border-radius: 45% 45% 40% 40% / 30% 30% 25% 25%;
+    text-align: center;
+    box-shadow:
+        0 15px 45px #80548b30,
+        inset 0 0 30px #ffffff;
+    animation: flotar 4s ease-in-out infinite;
+}
+
+.nube::before,
+.nube::after {
+    content: "";
+    position: absolute;
+    background: #fffdf9f2;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.nube::before {
+    width: 145px;
+    height: 145px;
+    top: -30px;
+    left: 15px;
+}
+
+.nube::after {
+    width: 165px;
+    height: 165px;
+    top: -35px;
+    right: 10px;
+}
+
+.nube h1 {
+    font-size: 28px;
+    color: #a66db8;
+    margin-bottom: 22px;
+}
+
+.nube p {
+    font-size: 19px;
+    line-height: 1.8;
+    color: #66516d;
+}
+
+.corazon {
+    font-size: 32px;
+    margin-top: 18px;
+    animation: latido 1.5s infinite;
+}
+
+/* Pétalos flotantes */
+
+.petalo-volador {
+    position: fixed;
+    top: -30px;
+    font-size: 20px;
+    pointer-events: none;
+    z-index: 5;
+    animation: caer linear forwards;
+}
+
+/* Música */
+
+.boton-musica {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 30;
+    padding: 13px 25px;
+    border: none;
+    border-radius: 30px;
+    background: #a67bd4;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 5px 20px #694e8655;
+}
+
+.boton-musica:hover {
+    background: #8b5ac0;
+}
+
+/* Animaciones */
+
+@keyframes balanceo {
+    from {
+        transform: rotate(-5deg);
+    }
+    to {
+        transform: rotate(5deg);
+    }
+}
+
+@keyframes flotar {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+@keyframes latido {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+@keyframes caer {
+    from {
+        transform: translateY(-20px) rotate(0deg);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .flor {
+        width: 100px;
+    }
+
+    .nube {
+        padding: 55px 25px;
+    }
+
+    .nube h1 {
+        font-size: 23px;
+    }
+
+    .nube p {
+        font-size: 16px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="cielo">
+    <div class="luz"></div>
+</div>
+
+<div class="jardin" id="jardin">
+    <div class="suelo"></div>
+</div>
+
+<main class="contenido">
+    <div class="nube">
+        <h1>Para ti ☁️</h1>
+
+        <p>
+            Hola, Qué suerte la mía haber
+            coincidido contigo el día de ayer
+            y desde que hablo contigo no se
+            que me pasa ya que no he podido
+            dejar de sonreír
+        </p>
+
+        <div class="corazon">💗</div>
+    </div>
+</main>
+
+<button class="boton-musica" id="musica">
+    ♫ Reproducir música
+</button>
+
+<script>
+/* Crear flores */
+
+const jardin = document.getElementById("jardin");
+
+const colores = [
+    "rosa",
+    "blanco",
+    "negro",
+    "lila"
+];
+
+function crearFlor(tipo, color, posicion, altura, retraso) {
+    const flor = document.createElement("div");
+
+    flor.className = `flor ${tipo} ${color}`;
+
+    flor.style.left = posicion + "%";
+    flor.style.height = altura + "px";
+    flor.style.animationDelay = retraso + "s";
+
+    const tallo = document.createElement("div");
+    tallo.className = "tallo";
+
+    const hoja1 = document.createElement("div");
+    hoja1.className = "hoja";
+
+    const hoja2 = document.createElement("div");
+    hoja2.className = "hoja dos";
+
+    const cabeza = document.createElement("div");
+    cabeza.className = "cabeza";
+
+    if (tipo === "girasol") {
+        for (let i = 0; i < 12; i++) {
+            const petalo = document.createElement("div");
+            petalo.className = "petalo";
+
+            petalo.style.transform =
+                `rotate(${i * 30}deg) translateY(-20px)`;
+
+            cabeza.appendChild(petalo);
+        }
+
+        const centro = document.createElement("div");
+        centro.className = "centro";
+        cabeza.appendChild(centro);
+
+    } else {
+        for (let i = 0; i < 3; i++) {
+            const petalo = document.createElement("div");
+            petalo.className = "petalo";
+            cabeza.appendChild(petalo);
+        }
+    }
+
+    flor.appendChild(tallo);
+    flor.appendChild(hoja1);
+    flor.appendChild(hoja2);
+    flor.appendChild(cabeza);
+
+    jardin.appendChild(flor);
+}
+
+/* Flores en ambos lados y en la parte inferior */
+
+const posiciones = [
+    0, 5, 10, 15, 20,
+    25, 30, 35, 40,
+    55, 60, 65, 70,
+    75, 80, 85, 90, 95
+];
+
+posiciones.forEach((pos, i) => {
+    const tipo = i % 2 === 0 ? "girasol" : "tulipan";
+    const color = colores[i % colores.length];
+
+    const altura = 220 + (i % 4) * 35;
+
+    crearFlor(
+        tipo,
+        color,
+        pos,
+        altura,
+        i * -0.3
+    );
+});
+
+/* Pétalos flotando */
+
+function crearPetalo() {
+    const petalo = document.createElement("div");
+    petalo.className = "petalo-volador";
+
+    const simbolos = ["🌸", "🌷", "💮", "✿"];
+
+    petalo.textContent =
+        simbolos[Math.floor(Math.random() * simbolos.length)];
+
+    petalo.style.left = Math.random() * 100 + "vw";
+    petalo.style.animationDuration =
+        (6 + Math.random() * 6) + "s";
+
+    document.body.appendChild(petalo);
+
+    setTimeout(() => {
+        petalo.remove();
+    }, 13000);
+}
+
+setInterval(crearPetalo, 700);
+
+/* Música instrumental original generada con Web Audio */
+
+let audioContext;
+let temporizador;
+let reproduciendo = false;
+let indiceNota = 0;
+
+const boton = document.getElementById("musica");
+
+const notas = [
+    261.63, 329.63, 392.00, 523.25,
+    440.00, 392.00, 329.63, 293.66,
+    261.63, 329.63, 440.00, 392.00,
+    349.23, 329.63, 293.66, 261.63
+];
+
+function tocarNota(frecuencia) {
+    if (!audioContext) return;
+
+    const oscilador = audioContext.createOscillator();
+    const volumen = audioContext.createGain();
+
+    oscilador.type = "sine";
+    oscilador.frequency.value = frecuencia;
+
+    const ahora = audioContext.currentTime;
+
+    volumen.gain.setValueAtTime(0.0001, ahora);
+    volumen.gain.exponentialRampToValueAtTime(
+        0.065,
+        ahora + 0.08
+    );
+    volumen.gain.exponentialRampToValueAtTime(
+        0.0001,
+        ahora + 0.75
+    );
+
+    oscilador.connect(volumen);
+    volumen.connect(audioContext.destination);
+
+    oscilador.start(ahora);
+    oscilador.stop(ahora + 0.8);
+}
+
+boton.addEventListener("click", async () => {
+    if (!audioContext) {
+        audioContext = new (
+            window.AudioContext ||
+            window.webkitAudioContext
+        )();
+    }
+
+    if (!reproduciendo) {
+        await audioContext.resume();
+
+        tocarNota(notas[indiceNota]);
+        indiceNota = (indiceNota + 1) % notas.length;
+
+        temporizador = setInterval(() => {
+            tocarNota(notas[indiceNota]);
+            indiceNota = (indiceNota + 1) % notas.length;
+        }, 480);
+
+        reproduciendo = true;
+        boton.textContent = "♫ Pausar música";
+
+    } else {
+        clearInterval(temporizador);
+        await audioContext.suspend();
+
+        reproduciendo = false;
+        boton.textContent = "♫ Reproducir música";
+    }
+});
+</script>
+
+</body>
+</html>
